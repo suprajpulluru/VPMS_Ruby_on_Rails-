@@ -7,13 +7,22 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   </head>
 
   <body class="d-flex flex-column" style="background-color: bg-secondary;">
 
     <%= render 'layouts/navigation' %>
     <%= render 'layouts/messages' %>
-    <%= yield %>
-  
+    <%= yield %>  
   </body>
+
+  <footer id="sticky-footer" class="py-2 bg-dark text-white">
+    <div class="container text-center">
+      <small>&copy; Supraj - Chronus            
+        <%# <i class="fa fa-mobile ml-5" aria-hidden="true"></i>  %>
+        <a class="ml-3">+91-6309546514</a>
+      </small>
+    </div>
+  </footer>
 </html>

@@ -10,7 +10,7 @@
     </style>
 </head>
 
-<div class="container">
+<div class="container" style="height: 100%">
   <div class="card border-info mt-4" id="profile-card">
     <div class="card-header bg-info text-white">
       <h1 class="text-center mb-0"><%= @user.username %>'s Profile</h1>
@@ -21,7 +21,7 @@
           <% if @user.avatar.attached? %>
             <%= image_tag @user.avatar, size: "200", class: "rounded-circle img-thumbnail" %>
           <% else %>
-            <%= image_tag "https://avatar.iran.liara.run/public/boy?username=Ash", size: "200", class: "rounded-circle img-thumbnail" %>
+            <%= image_tag asset_path("DefaultUserImage.png"), size: "200", class: "rounded-circle img-thumbnail" %>
           <% end %>
         </div>
         <div class="col-md-6">

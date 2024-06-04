@@ -35,7 +35,8 @@
                         <p class="card-text" style="color: #000000; font-size: 15px">Parking Slot Number: <%= @parkingslot.slot_number %></p>
                         <p class="card-text" style="color: #000000; font-size: 15px">Vehicle Number: <%= @bill.vehicle_number %></p>
                         <p class="card-text" style="color: #000000; font-size: 15px">Username: <%= @user.username %> </p>
-                        <p class="card-text" style="color: #000000; font-size: 15px">Checkin-Time: <%= @bill.checkin_time %> </p>
+                        <p class="card-text" style="color: #000000; font-size: 15px">Checkin-Time: <%= @bill.checkin_time.in_time_zone('Asia/Kolkata').strftime('%Y-%m-%d %H:%M:%S') %></p>
+
                         <p class="card-text" style="color: #000000; font-size: 15px">Specified Duration: <%= pluralize(@duration_in_days, 'Day') %> <%= pluralize(@duration_in_hours, 'Hour') %></p>
                         <p class="card-text" style="color: #000000; font-size: 15px">Prepaid Amount: <%= @bill.amount %></p>
                     </div>
