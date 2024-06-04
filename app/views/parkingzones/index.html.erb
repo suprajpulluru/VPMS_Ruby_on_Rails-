@@ -1,0 +1,61 @@
+<%= javascript_packs_with_chunks_tag "application" %>
+<% if logged_in? %>
+    <% if @parkingzones.count >= 1 %>
+        <div class="container mb-3 mt-3" style="width:25%;">
+          <input type="text" id="parkingzonesearch" class="form-control glowing-border" placeholder="Search Parking Zones">
+        </div>
+        
+        <div class="row justify-content-around mb-0">
+            <% @parkingzones.each do |parkingzone| %>
+                <div class="col-sm-4 pz-entry ml-3 mr-3 ">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                            <h5 class="card-title">Name: <%= parkingzone.name %></h5>
+                            <p class="card-text pz-area">Area: <%= parkingzone.area %></p>
+                            <p class="card-text">Free slots: <%= parkingzone.free_slots %></p>
+                            <p class="card-text">Charge per hour: <%= parkingzone.fare1 %>/-</p>
+                            <p class="card-text">Charge per day: <%= parkingzone.fare2 %>/-</p>
+                            
+                            <% if current_user.id == parkingzone.incharge_user_id %>
+                              <div>
+                                <%= link_to "View Layout", parkingzone_path(parkingzone), class: "btn btn-primary btn-sm" %>
+                                <%# <%= link_to "+", parkingslots_path(parkingzone_id: parkingzone.id), method: :post, class: "btn btn-warning rounded-circle" %> 
+                              </div>
+                            <% else %>
+                              <div>
+                                <%= link_to "View Location", "https://www.google.com/maps?q=#{parkingzone.latitude},#{parkingzone.longitude}", class: "btn btn-primary btn-sm mr-2", target: "_blank" %>
+                                <% if parkingzone.free_slots > 0 %>
+                                  <%= link_to "Book", edit_parkingzone_path(parkingzone), class: "btn btn-sm btn-secondary" %>
+                                <% end %>
+                              </div>
+                            <% end %>                    
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+<% end %>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchInput = document.getElementById("parkingzonesearch");
+      const parkingZones = document.querySelectorAll(".pz-entry");
+
+      searchInput.addEventListener("keyup", () => {
+          const query = searchInput.value.toLowerCase().trim();
+          
+          parkingZones.forEach(pz => {
+              const name = pz.querySelector('.card-title').textContent.replace("Name: ", "").toLowerCase();
+              const area = pz.querySelector('.pz-area').textContent.replace("Area: ", "").toLowerCase();
+              if (name.includes(query) || area.includes(query)) {
+                  pz.style.display = "";
+              }
+              else {
+                  pz.style.display = "none";
+              }
+          });
+      });
+    });
+</script>

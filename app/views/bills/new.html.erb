@@ -1,0 +1,20 @@
+<div class="container-sm mt-3 row justify-content-center">
+  <div class="col-md-2"></div>
+  <div class="col-md-4">
+    <div class="card border-secondary mb-3 bg-light text-center" style="border: 2px solid #007bff;">
+      <div class="card-header" style="background-color: black; color: white;">
+        Confirm Details and Make payment
+      </div>
+      <div class="card-body">
+        <div class="container">
+          <% @amount = calculate_amount_in_rupees(@duration_in_days,@duration_in_hours, @parkingzone.id) %>
+          <p class="card-text" style="color: #000000; font-size: 15px">Vehicle Number: <%= @vehicle_number %></p>
+          <p class="card-text" style="color: #000000; font-size: 15px">Parking Zone Name: <%= @parkingzone.name %></p>
+          <p class="card-text" style="color: #000000; font-size: 15px">Specified Duration: <%= pluralize(@duration_in_days, 'Day') %> <%= pluralize(@duration_in_hours, 'Hour') %></p>
+          <p class="card-text" style="color: #000000; font-size: 15px; font-weight: bold;">Amount to be paid: <%= @amount %> rupees</p>
+          <%= link_to "Pay", "#{bills_path}?&vehicle_number=#{@vehicle_number}&parkingzone_id=#{@parkingzone.id}&duration_in_days=#{@duration_in_days}&duration_in_hours=#{@duration_in_hours}&amount=#{@amount}", class: "btn btn-primary", id: "make-payment-link", method: :post %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

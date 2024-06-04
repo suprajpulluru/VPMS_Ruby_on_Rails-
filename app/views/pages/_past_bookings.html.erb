@@ -1,0 +1,29 @@
+<% if logged_in? %>
+    <% @bills = Bill.where(user_id: current_user.id).where.not(checkout_time: nil) %>
+    <% if @bills.count >= 1 %>
+        <h2 class="d-flex justify-content-start">Past Bookings</h2>
+        <div class="row justify-content-between mb-0">
+            <% @bills[0..2].each do |bill| %>
+                <div class="col-sm-4">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Vehicle Number: <%= bill.vehicle_number %></h5>
+                            <p class="card-text">Check-in Time: <%= bill.checkin_time %></p>
+                            <p class="card-text">Check-out Time: <%= bill.checkout_time %></p>
+                            <p class="card-text">Amount Paid: <%= bill.prepaid_amount %></p>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+    <% if @bills.count > 3 %>
+        <div class="row justify-content-end">
+            <div class="col-sm-4">
+                <div class="text-right">
+                    <%= link_to "View More", user_history_path(current_user), class: "btn btn-primary btn-sm" %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+<% end %>

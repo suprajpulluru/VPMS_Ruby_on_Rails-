@@ -1,0 +1,90 @@
+<div id="page-content">
+    <div class="container" id="home-container">
+        <%= render("login") %>
+
+        <%= render("parking_zones") %>
+
+        <% if logged_in? %>        
+            <div class="row mt-4">
+                <div class="col-md-1"></div> <!-- Empty column for 20% width in the middle -->
+                <div class="col-md-4">
+                    <% @bills = Bill.where(user_id: current_user.id, checkout_time: nil).reverse %>
+                    <% if @bills.any? %>
+                        <h2>Active Bookings</h2>
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Vehicle Number</th>
+                                    <th scope="col">Parking Zone Name</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @bills[0..1].each do |bill| %>
+                                    <% @parkingslot = Parkingslot.find(bill.parkingslot_id)%>
+                                    <% @parkingzone = Parkingzone.find(@parkingslot.parkingzone_id)%>
+                                    <tr>
+                                        <td><%= bill.vehicle_number %></td>
+                                        <td><%= @parkingzone.name %></td>
+                                        <td><%= link_to "Checkout", edit_bill_path(bill), class: "btn btn-sm mt-0 btn-primary" %></td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+
+                        <% if @bills.count > 2%>
+                            <div class="text-center">
+                                <%= link_to "View All", user_active_path(current_user), class: "btn btn-sm btn-primary" %>
+                            </div>
+                        <% end %>
+                    <% else %>
+                        <h2>Active Bookings</h2>
+                        <h6>No Active Bookings Found</h6>
+                    <% end %>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <% @bills = Bill.where(user_id: current_user.id).where.not(checkout_time: nil) %>
+                    <% if @bills.any? %>
+                        <h2>Past Bookings</h2>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Vehicle Number</th>
+                                    <th scope="col">Parking Zone Name</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @bills[0..1].each do |bill| %>
+                                    <% @parkingslot = Parkingslot.find(bill.parkingslot_id)%>
+                                    <% @parkingzone = Parkingzone.find(@parkingslot.parkingzone_id)%>
+                                    <tr>
+                                        <td><%= bill.vehicle_number %></td>
+                                        <td><%= @parkingzone.name %></td>
+                                        <td><%= bill.amount %></td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+
+                        <% if @bills.count > 2%>
+                            <div class="text-center">
+                                <%= link_to "View All", user_history_path(current_user), class: "btn btn-sm btn-primary mb-2" %>
+                            </div>
+                        <% end %>
+                    <% else %>
+                        <h2>Past Bookings</h2>
+                        <h6>No Past Bookings Found</h6>
+                    <% end %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<%# <footer id="sticky-footer" class="py-2 bg-dark text-white"> %>
+    <%# <div class="container text-center"> %>
+        <%# <small>&copy; <%= link_to "Internship@Chronus", "#", class: "text-white" %> 
+    <%# </div> %>
+<%# </footer> %>

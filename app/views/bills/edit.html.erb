@@ -1,0 +1,44 @@
+<div class="container-sm mt-3 row justify-content-center">
+  <div class="col-md-2"></div>
+  <div class="col-md-5">
+    <div class="card border-secondary mb-3 bg-light text-center" style="border: 2px solid #007bff;">
+      <div class="card-header" style="background-color: black; color: white;">
+        Confirm Details and Make payment
+      </div>
+      <div class="card-body">
+        <div class="container text-center"> 
+          <p class="text-left">Vehicle Number:&nbsp;<%= @bill.vehicle_number %></p>
+          <p class="text-left">Parking Zone Name:&nbsp;<%= @parkingzone.name %></p>
+          <p class="text-left">Slot Number:&nbsp;<%= @parkingslot.slot_number %></p>      
+          <p class="text-left">Prepaid Amount:&nbsp;<%= @bill.amount %></p>
+          <p class="text-left">Specified Duration:&nbsp;<%= @bill.duration/24 %> Days <%= @bill.duration%24 %> Hours</p>
+
+          <% @duration_in_seconds = Time.now - @bill.checkin_time %>
+          <% @duration_in_days = (@duration_in_seconds / 1.day).to_i %>
+          <% @duration_in_hours = (@duration_in_seconds / 1.hour % 24).to_i %>
+          <% @duration_in_minutes = (@duration_in_seconds / 1.minute % 60).to_i %>
+
+          <p class="text-left">Parked Duration:&nbsp;<%= pluralize(@duration_in_days, 'Day') %> <%= pluralize(@duration_in_hours, 'Hour') %> <%= pluralize(@duration_in_minutes, 'Minute')%></p>
+
+          <% @duration_in_seconds = Time.now - @bill.checkin_time %>
+          <% @duration_in_hours = (@duration_in_seconds / 1.hour).to_i %>
+          <% @duration_left_in_hours = @bill.duration - @duration_in_hours %>
+          <% @duration_left_days = (@duration_left_in_hours / 24).to_i %>
+          <% @duration_left_hours = @duration_left_in_hours % 24 %>
+
+          <% if @duration_in_hours > @bill.duration %>
+            <p class="text-left">Duration Exceeded</p>
+          <% else %>
+            <p class="text-left">Time Left: <%= pluralize(@duration_left_days, 'Day') %> <%= pluralize(@duration_left_hours, 'Hour') %></p>
+          <% end %>
+
+          <% @amount = calculate_amount_in_rupees(@duration_in_days, @duration_in_hours, @parkingslot.parkingzone_id) %>
+          <% @amount = [@amount - @bill.amount, 0].max %>
+          <p class="text-left">Due Amount:&nbsp;<%= @amount %> rupees</p>
+          <%# <%= link_to "Make Payment", bill_path(@bill), class: "btn btn-primary", id: "make-payment-link", method: :patch %>
+          <%= link_to "Pay", bill_path(@bill, amount: @amount), class: "btn btn-primary", id: "make-payment-link", method: :patch %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

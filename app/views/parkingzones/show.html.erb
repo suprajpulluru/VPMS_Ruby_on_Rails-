@@ -1,0 +1,90 @@
+<head>
+    <style>
+        body {
+            background-color: lightgray;
+        }
+        .slot {
+            width: 100px;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+        }
+        .inactive {
+            background-color: gray;
+        }
+        .empty {
+            background-color: #d4edda;
+        }
+        .occupied{
+            background-color: #FFC0CB;
+        }
+        .slot-link {
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .slot-link:hover .slot.occupied {
+            background-color: #f8d7da; /* Light red for occupied slots */
+        }
+    </style>
+</head>
+
+<div class="container row vh-100 d-flex justify-content-center align-items-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Parking Zone Details</h3>
+                <p class="card-text">Total Parking Slots: <%= @parkingzone.total_slots %></p>
+                <p class="card-text">Free Parking Slots: <%= @parkingzone.free_slots %></p>
+                <% if current_user.id == @parkingzone.incharge_user_id %>
+                    <%= link_to "Add a slot", parkingslots_path(parkingzone_id: @parkingzone.id), method: :post, class: "btn btn-primary" %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 card">
+            <div class="card-header">
+                <h5 class="card-title">Parking Slots</h5>
+            </div>
+            <div class="card-body">
+                <div class="parking-slots-grid">
+                    <% @parkingslots.each_slice(5) do |row| %>
+                        <div class="row">
+                            <% row.each do |parkingslot| %>
+                                <% if parkingslot.active == false %>
+                                    <div>
+                                        <%= link_to parkingslot_path(parkingslot), class: "slot-link" do %>
+                                            <div class="slot inactive">
+                                                Slot <%= parkingslot.slot_number %>
+                                            </div>
+                                        <% end %>
+                                    </div>
+                                <% elsif parkingslot.status == false %>
+                                    <div>
+                                        <%= link_to parkingslot_path(parkingslot), class: "slot-link" do %>
+                                            <div class="slot empty">
+                                                Slot <%= parkingslot.slot_number %>
+                                            </div>
+                                        <% end %>
+                                    </div>
+                                <% else %>
+                                    <div>
+                                        <%= link_to parkingslot_path(parkingslot), class: "slot-link" do %>
+                                            <div class="slot occupied">
+                                                Slot <%= parkingslot.slot_number %>
+                                            </div>
+                                        <% end %>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    <% end %>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

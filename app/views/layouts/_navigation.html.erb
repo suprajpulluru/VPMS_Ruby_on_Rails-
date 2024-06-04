@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to "Parking Management System", root_path, class: "navbar-brand", id: "logo", style: "text-transform: none;" %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <% if logged_in? %>
+        <li class="nav-item">
+          <%= link_to "Active Bookings", user_active_path(current_user), class: "nav-link" %>
+        </li>
+
+        <li class="nav-item">
+          <%= link_to "Booking History", user_history_path(current_user), class: "nav-link" %>
+        </li>
+      <% end %>
+
+    </ul>
+
+    <ul class="navbar-nav ml-auto"> <!-- Utilizing ml-auto for right alignment -->
+      <% if logged_in? %>
+        <li class="nav-item mr-3">
+          <%= link_to current_user.username, user_path(current_user), class: "nav-link btn" %>
+        </li>
+        <li class="nav-item mr-3">
+          <%= link_to "Logout", login_path, method: :delete, class: "nav-link btn" %>
+        </li>
+      <%# <% else %> 
+        <%# <li class="nav-item mr-3"> %>
+          <%# <%= link_to "Login", login_path, class: "nav-link" %> 
+        <%# </li> %>
+        <%# <li class="nav-item mr-3"> %>
+          <%# <%= link_to "Signup", signup_path, class: "nav-link" %>
+        <%# </li> %>
+      <% end %>
+    </ul>
+  </div>
+</nav>

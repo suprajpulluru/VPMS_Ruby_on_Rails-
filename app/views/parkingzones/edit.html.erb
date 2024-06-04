@@ -1,0 +1,70 @@
+<h1 class="card-title text-center mt-4 mb-1">Enter Vehicle Details</h1>
+<div class="container mt-0 mb-3" style="width: 60%;">
+  <div class="card mb-3" style="width: 50%; margin: 0 auto; border: 2px solid #007bff;">
+    <div class="card-body">
+      <% if @errors && @errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <%= @errors %>
+      </div>
+      <% end %>
+      <form action="<%= new_bill_path %>" class="booking-form" onsubmit="return validateForm();">
+        <input type="hidden" name="parkingzone_id" value="<%= @parkingzone.id %>">
+        
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" value="<%= current_user.username %>" class="form-control" disabled>
+        </div>
+
+        <div class="form-group">
+          <label for="parkingzone_name">Parking Zone Name</label>
+          <input id="parkingzone_name" name="parkingzone_name" class="form-control" value="<%= @parkingzone.name %>" disabled>
+        </div>
+
+        <div class="form-group">
+          <label for="vehicle_number">Vehicle Number</label>
+          <input id="vehicle_number" name="vehicle_number" class="form-control" value="<%= @vehicle_number %>">
+        </div>
+
+        <div class="form-group">
+          <label for="duration">Duration</label>
+          <div>
+            <input type="number" id="duration_in_days" name="duration_in_days" class="form-control" style="display: inline-block; width: 45%;" placeholder="days" value="<%= @duration_in_days %>">
+            <input type="number" id="duration_in_hours" name="duration_in_hours" class="form-control" style="display: inline-block; width: 45%;" placeholder="hours" value="<%= @duration_in_hours %>">
+          </div>
+        </div>
+
+        <div class="text-center">
+          <input type="submit" value="Parking Fee" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function validateForm() {
+    var vehicleNumber = document.getElementById('vehicle_number').value;
+    var days = document.getElementById('duration_in_days').value;
+    var hours = document.getElementById('duration_in_hours').value;
+
+    // Validate vehicle number format
+    var vehicleRegex = /^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/;
+    if (!vehicleRegex.test(vehicleNumber)) {
+      alert("Vehicle number should be in the format XX00XX0000");
+      return false;
+    }
+
+    // Validate days and hours are filled and within range
+    if (days === '' || hours === '') {
+      alert("Please fill in both days and hours fields.");
+      return false;
+    }
+
+    if (parseInt(hours) >= 24) {
+      alert("Hours should be less than 24.");
+      return false;
+    }
+
+    return true;
+  }
+</script>

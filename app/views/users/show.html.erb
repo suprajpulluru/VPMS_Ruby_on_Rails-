@@ -1,0 +1,36 @@
+<head>
+    <style>
+        body {
+            background-color: lightgray;
+        }
+        #profile-card{
+            margin-left: 15rem;
+            width: 40rem;
+        }
+    </style>
+</head>
+
+<div class="container">
+  <div class="card border-info mt-4" id="profile-card">
+    <div class="card-header bg-info text-white">
+      <h1 class="text-center mb-0"><%= @user.username %>'s Profile</h1>
+    </div>
+    <div class="card-body">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 text-center">
+          <% if @user.avatar.attached? %>
+            <%= image_tag @user.avatar, size: "200", class: "rounded-circle img-thumbnail" %>
+          <% else %>
+            <%= image_tag "https://avatar.iran.liara.run/public/boy?username=Ash", size: "200", class: "rounded-circle img-thumbnail" %>
+          <% end %>
+        </div>
+        <div class="col-md-6">
+            <p class="lead">UserName: <%= @user.username %></p>
+            <p class="lead">Email: <%= @user.email %></p>
+            <p class="lead">DOB: <%= @user.DOB %></p>
+          <%= link_to "Edit Your Profile", edit_user_path(@user), class: "btn btn-outline-info btn-lg mt-3" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

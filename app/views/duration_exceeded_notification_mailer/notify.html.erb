@@ -1,0 +1,10 @@
+<h1>Parking Slot Duration Exceeded</h1>
+<p>Dear <%= @user.username %></p>
+<p>This is to inform you that the duration for your parking slot booking has exceeded.</p>
+<p>Details: </p>
+<ul>
+    <li>Vehicle Number: <%= @bill.vehicle_number %></li>
+    <li>Parking Zone Name: <%= @parkingzone.name %></li>
+    <li>Parking Slot Number: <%= @parkingslot.slot_number %></li>
+</ul>
+<p>Please take necessary action.</p>

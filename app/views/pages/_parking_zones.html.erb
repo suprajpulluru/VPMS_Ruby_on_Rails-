@@ -1,0 +1,44 @@
+<% if logged_in? %>
+    <% current_user_parkingzones = Parkingzone.where(incharge_user_id: current_user.id) 
+    other_parkingzones = Parkingzone.where.not(incharge_user_id: current_user.id) 
+    @parkingzones = current_user_parkingzones + other_parkingzones %>
+
+    <% if @parkingzones.count >= 1 %>
+        <h2 class="d-flex justify-content-start">Parking Zones</h2>
+        <div class="row justify-content-between mb-0">
+            <% @parkingzones[0..2].each do |parkingzone| %>
+                <div class="col-sm-4">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= parkingzone.name %></h5>
+                            <p class="card-text">Area: <%= parkingzone.area %></p>
+                            <p class="card-text text-black">Free slots: <%= parkingzone.free_slots %></p>
+                            <p class="card-text">Charge per hour: <%= parkingzone.fare1 %>/-</p>
+                            <p class="card-text">Charge per day: <%= parkingzone.fare2 %>/-</p>
+                            
+                            <% if current_user.id == parkingzone.incharge_user_id %>
+                                <%= link_to "Layout", parkingzone_path(parkingzone), class: "btn btn-primary btn-sm" %>
+                                <%# <%= link_to "+", parkingslots_path(parkingzone_id: parkingzone.id), method: :post, class: "btn btn-success rounded-circle" %> 
+                            <% else %>
+                                <%= link_to "View Location", "https://www.google.com/maps?q=#{parkingzone.latitude},#{parkingzone.longitude}", class: "btn btn-primary mr-2 btn-sm", target: "_blank" %>
+                                <% if parkingzone.free_slots > 0 %>
+                                  <%= link_to "Book", edit_parkingzone_path(parkingzone), class: "btn btn-secondary btn-sm" %>
+                                <% end %>
+                            <% end %>                    
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+    <% if @parkingzones.count > 3 %>
+        <div class="row justify-content-end">
+            <div class="col-sm-4">
+                <div class="text-right">
+                    <%= link_to "View More", parkingzones_path, class: "btn btn-primary btn-sm" %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+
+<% end %>

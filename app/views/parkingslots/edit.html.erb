@@ -1,0 +1,32 @@
+<form action="<%= new_bill_path %>">
+  <input type="hidden" name="parkingslot_id" value="<%= @parkingslot.id %>">
+
+  <div class="field">
+    <label for="username">Username</label>
+    <input type="text" id="username" value="<%= current_user.username %>" disabled>
+  </div>
+
+  <div class="field">
+    <label for="parking_zone_name">Parking Zone Name</label>
+    <input type="text" id="parking_zone_name" value="<%= @parkingzone.name %>" disabled>
+  </div>
+
+  <div class="field">
+    <label for="parking_slot_number">Parking Slot Number</label>
+    <input type="number" id="parking_slot_number" value=<%= @parkingslot.slot_number %> disabled>
+  </div>
+
+  <div class="field">
+    <label for="vehicle_number">Vehicle Number</label>
+    <textarea id="vehicle_number" name="vehicle_number"></textarea>
+  </div>
+
+  <div class="field">
+    <label for="duration">Duration</label>
+    <input type="number" id="duration" name="duration">
+  </div>
+
+  <div class="actions">
+    <input type="submit" value="Generate Bill">
+  </div>
+</form>
